@@ -93,4 +93,13 @@ class FlysystemS3Client
     {
         $this->s3Adapter->deleteFile($fileKey);
     }
+
+    public function fileExists(string $fileKey): bool
+    {
+        try {
+            return $this->s3Adapter->fileExists($fileKey);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

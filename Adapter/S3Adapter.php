@@ -120,4 +120,22 @@ class S3Adapter
             'Key' => $key,
         ]);
     }
+
+
+    public function fileExists(string $key): bool
+    {
+        try {
+            $this->client->headObject([
+                'Bucket' => $this->bucketName,
+                'Key' => $key,
+            ]);
+            return true;
+        } catch (\Aws\S3\Exception\S3Exception $e) {
+            if ($e->getStatusCode() === 404) {
+                return false;
+            }
+            throw $e;
+        }
+    }
+
 }
